@@ -1,0 +1,33 @@
+print("CALL BLOCKING PROBABILITY")
+print("----------------------------------------")
+
+traffic = float(input("Enter traffic intensity in Erlangs: "))
+channels = int(input("Enter number of available channels: "))
+
+# Erlang B calculation
+blocking = 1.0
+
+for i in range(1, channels + 1):
+    blocking = (traffic * blocking) / (i + traffic * blocking)
+
+# Calculate carried traffic
+carried_traffic = traffic * (1 - blocking)
+
+# Calculate blocked traffic
+blocked_traffic = traffic * blocking
+
+print("\nRESULTS")
+print("----------------------------------------")
+print("Traffic Intensity:", traffic, "Erlangs")
+print("Available Channels:", channels)
+print("Call Blocking Probability:", round(blocking, 5))
+print("Blocking Percentage:", round(blocking * 100, 2), "%")
+print("Carried Traffic:", round(carried_traffic, 3), "Erlangs")
+print("Blocked Traffic:", round(blocked_traffic, 3), "Erlangs")
+
+if blocking < 0.01:
+    print("System Performance: Excellent")
+elif blocking < 0.05:
+    print("System Performance: Good")
+else:
+    print("System Performance: Poor")
