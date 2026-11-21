@@ -1,0 +1,41 @@
+import math
+
+print("FREQUENCY REUSE ANALYSIS")
+print("----------------------------------------")
+
+total_channels = int(input("Enter total available channels: "))
+cluster_size = int(input("Enter cluster size (N): "))
+interferers = int(input("Enter number of co-channel interferers: "))
+path_loss = float(input("Enter path loss exponent: "))
+cell_radius = float(input("Enter cell radius in km: "))
+
+# Frequency reuse ratio
+reuse_ratio = 1 / cluster_size
+
+# Frequency reuse distance
+reuse_distance = math.sqrt(3 * cluster_size) * cell_radius
+
+# Co-channel reuse ratio
+Q = math.sqrt(3 * cluster_size)
+
+# Signal to Interference ratio
+S_I = (Q ** path_loss) / interferers
+
+# Channels per cell
+channels_per_cell = total_channels / cluster_size
+
+print("\nRESULTS")
+print("----------------------------------------")
+print("Total Channels:", total_channels)
+print("Cluster Size:", cluster_size)
+print("Frequency Reuse Ratio:", round(reuse_ratio, 3))
+print("Reuse Distance:", round(reuse_distance, 2), "km")
+print("Reuse Ratio Q:", round(Q, 2))
+print("Signal to Interference Ratio:", round(S_I, 2))
+print("Channels per Cell:", round(channels_per_cell, 2))
+print("S/I in dB:", round(10 * math.log10(S_I), 2), "dB")
+
+if S_I >= 18:
+    print("Interference Level: Acceptable")
+else:
+    print("Interference Level: High")
