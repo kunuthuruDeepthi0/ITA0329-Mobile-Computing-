@@ -1,0 +1,67 @@
+import random
+
+print("OFDMA DOWNLINK SCHEDULER")
+print("----------------------------------------")
+
+users = int(input("Enter number of users: "))
+resources = int(input("Enter number of resource blocks: "))
+
+# Initialize throughput for each user
+throughput = [0] * users
+allocation = [0] * users
+
+# Generate channel conditions
+channel_quality = []
+
+for i in range(users):
+    quality = random.randint(1, 10)
+    channel_quality.append(quality)
+
+print("\nCHANNEL QUALITY")
+for i in range(users):
+    print("User", i + 1, ":", channel_quality[i])
+
+# Round Robin Scheduling
+print("\nROUND ROBIN SCHEDULING")
+for r in range(resources):
+
+    user = r % users
+
+    rate = channel_quality[user] * random.randint(1, 5)
+
+    throughput[user] += rate
+    allocation[user] += 1
+
+# Display throughput
+print("\nUSER THROUGHPUT")
+print("----------------------------------------")
+
+for i in range(users):
+    print("User", i + 1)
+    print("Allocated Resource Blocks:", allocation[i])
+    print("Throughput:", throughput[i])
+
+# Total and average throughput
+total = sum(throughput)
+average = total / users
+
+# Jain's fairness index
+square_sum = sum(x ** 2 for x in throughput)
+
+if square_sum != 0:
+    fairness = (total ** 2) / (users * square_sum)
+else:
+    fairness = 0
+
+print("\nFINAL PERFORMANCE")
+print("----------------------------------------")
+print("Total Throughput:", total)
+print("Average Throughput:", round(average, 2))
+print("Jain's Fairness Index:", round(fairness, 3))
+
+if fairness > 0.8:
+    print("Fairness: High")
+elif fairness > 0.5:
+    print("Fairness: Moderate")
+else:
+    print("Fairness: Low")
