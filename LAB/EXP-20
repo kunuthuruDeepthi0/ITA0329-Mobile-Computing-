@@ -1,0 +1,56 @@
+import numpy as np
+
+print("CDMA SPREADING AND DESPREADING")
+print("----------------------------------------")
+
+# Original binary data
+data = np.array([1, 0, 1, 1])
+
+# Spreading code
+code = np.array([1, -1, 1, -1])
+
+print("Original Data:", data)
+print("Spreading Code:", code)
+
+# Convert binary data into bipolar format
+bipolar_data = np.where(data == 1, 1, -1)
+
+# Spreading operation
+spread_signal = []
+
+for bit in bipolar_data:
+    spread_signal.extend(bit * code)
+
+spread_signal = np.array(spread_signal)
+
+print("\nSPREADING")
+print("----------------------------------------")
+print("Bipolar Data:", bipolar_data)
+print("Spread Signal:", spread_signal)
+
+# Despreading operation
+despread_data = []
+
+for i in range(len(data)):
+
+    start = i * len(code)
+    end = start + len(code)
+
+    received = spread_signal[start:end]
+
+    result = np.sum(received * code)
+
+    if result > 0:
+        despread_data.append(1)
+    else:
+        despread_data.append(0)
+
+print("\nDESPREADING")
+print("----------------------------------------")
+print("Recovered Data:", despread_data)
+
+# Verify original and recovered data
+if np.array_equal(data, despread_data):
+    print("CDMA Verification: Successful")
+else:
+    print("CDMA Verification: Failed")
