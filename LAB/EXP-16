@@ -1,0 +1,33 @@
+import math
+
+print("FREE SPACE PATH LOSS AND RECEIVED POWER")
+print("----------------------------------------")
+
+frequency = float(input("Enter frequency in MHz: "))
+distance = float(input("Enter distance in km: "))
+transmit_power = float(input("Enter transmitted power in dBm: "))
+transmit_gain = float(input("Enter transmitter antenna gain in dB: "))
+receive_gain = float(input("Enter receiver antenna gain in dB: "))
+
+# Calculate Free Space Path Loss
+fspl = 32.44 + (20 * math.log10(frequency)) + (20 * math.log10(distance))
+
+# Calculate received power
+received_power = transmit_power + transmit_gain + receive_gain - fspl
+
+print("\nRESULTS")
+print("----------------------------------------")
+print("Frequency:", frequency, "MHz")
+print("Distance:", distance, "km")
+print("Transmitted Power:", transmit_power, "dBm")
+print("Transmitter Gain:", transmit_gain, "dB")
+print("Receiver Gain:", receive_gain, "dB")
+print("Free Space Path Loss:", round(fspl, 2), "dB")
+print("Received Power:", round(received_power, 2), "dBm")
+
+if received_power > -70:
+    print("Signal Strength: Strong")
+elif received_power > -90:
+    print("Signal Strength: Moderate")
+else:
+    print("Signal Strength: Weak")
